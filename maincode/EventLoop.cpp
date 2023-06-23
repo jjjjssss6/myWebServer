@@ -10,6 +10,7 @@ EventLoop::EventLoop() : ep(nullptr), quit(false)
 
 EventLoop::~EventLoop()
 {
+    quit = 1;
     delete ep;
 }
 
