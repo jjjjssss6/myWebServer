@@ -63,4 +63,9 @@ public:
         workers.push([task](){(*task)();});
         return ans;
     }
+
+    int getThreadNum()
+    {
+        return threadNum;
+    }
 };
