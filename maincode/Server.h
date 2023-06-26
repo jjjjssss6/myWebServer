@@ -6,6 +6,7 @@ class Socket;
 class Acceptor;
 class Connection;
 class ThreadPool;
+class Timer;
 class Server
 {
 public:
@@ -14,7 +15,7 @@ public:
 
     // void handleReadEvent(int);
     void newConnection(Socket *sock);
-    void deleteConnection(int sockfd);
+    void deleteConnection(int sockfd, int epfd);
 
 private:
     EventLoop *mainReactor;
@@ -22,4 +23,5 @@ private:
     std::map<int, Connection*> connections;
     std::vector<EventLoop*> subReactors;
     ThreadPool *threadpool;
+    Timer *timer;
 };

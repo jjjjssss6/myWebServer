@@ -24,6 +24,11 @@ Epoll::~Epoll()
     delete[] events;
 }
 
+int Epoll::getEpfd()
+{
+    return epfd;
+}
+
 std::vector<Channel *> Epoll::poll(int timeout)
 {
     std::vector<Channel *> activeChannels;
@@ -47,6 +52,7 @@ void Epoll::updateChannel(Channel *channel)
     ev.events = channel->getEvents();
     if (!channel->getInEpoll())
     {
+
         errif(epoll_ctl(epfd, EPOLL_CTL_ADD, fd, &ev) == -1, "epoll add error");
         channel->setInEpoll();
     }

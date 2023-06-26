@@ -3,6 +3,7 @@
 
 class EventLoop;
 class Socket;
+class Timer;
 class Channel;
 class Buffer;
 class Connection
@@ -21,5 +22,5 @@ private:
     Channel *channel;
     std::function<void(int)> deleteConnectionCallback;
     Buffer *readBuffer;
-
+    Timer *timer;
 };

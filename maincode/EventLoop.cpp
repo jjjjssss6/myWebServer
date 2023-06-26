@@ -2,9 +2,10 @@
 #include "Epoll.h"
 #include "Channel.h"
 #include "myThreadPool/ThreadPool.h"
+#include "Timer/Timer.h"
 #include <vector>
 
-EventLoop::EventLoop() : ep(nullptr), quit(false)
+EventLoop::EventLoop(Timer *_timer) : timer(_timer), ep(nullptr), quit(false)
 {
     ep = new Epoll();
     threadPool = new ThreadPool();
@@ -17,10 +18,21 @@ EventLoop::~EventLoop()
     delete threadPool;
 }
 
+int EventLoop::getEpfd()
+{
+    return ep->getEpfd();
+}
+
+Timer* EventLoop::getTimer()
+{
+    return timer;
+}
+
 void EventLoop::loop()
 {
     while (!quit)
     {
+        timer->handleTimeoutEvents();
         std::vector<Channel *> chs;
         chs = ep->poll();
         for (auto it = chs.begin(); it != chs.end(); ++it)

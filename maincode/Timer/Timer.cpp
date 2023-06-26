@@ -61,17 +61,18 @@ void Timer::delEvent(int id)
 
 void Timer::handleTimeoutEvents()
 {
-    int deletedNum = 0;
+    std::unique_lock<std::mutex> lck(mtx);
+    std::vector<int> idToDelete;
     for (auto &[event, filler] : eventQueue)
     {
         if (std::chrono::duration_cast<std::chrono::milliseconds>(event.expire - std::chrono::high_resolution_clock::now()).count() > 0)
             break;
         event.cb();
-        deletedNum++;
+        idToDelete.push_back(event.id);
     }
-    for (int i = 1; i <= deletedNum; i++)
+    for (auto &id : idToDelete)
     {
-        eventQueue.erase(eventQueue.begin());
+        delEvent(id);
     }
 }
 

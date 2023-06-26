@@ -9,6 +9,8 @@ public:
     Epoll();
     ~Epoll();
 
+    int getEpfd();
+
     void updateChannel(Channel*);
     void deleteChannel(Channel*);
 

@@ -4,15 +4,20 @@
 class Epoll;
 class Channel;
 class ThreadPool;
+class Timer;
 class EventLoop
 {
 private:
     Epoll *ep;
     ThreadPool *threadPool;
+    Timer *timer;
     bool quit;
 public:
-    EventLoop();
+    EventLoop(Timer *_timer);
     ~EventLoop();
+    int getEpfd();
+    Timer* getTimer();
+
 
     void loop();
     void updateChannel(Channel*);

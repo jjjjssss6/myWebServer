@@ -3,7 +3,9 @@
 #include <chrono>
 #include <map>
 #include <unordered_map>
+#include <mutex>
 #include <functional>
+#include <vector>
 #include <iostream>
 
 struct timeNode
@@ -32,4 +34,5 @@ public:
 private:
     std::unordered_map<int, timeNode> mp;
     std::map<timeNode, int> eventQueue;
+    std::mutex mtx;
 };
