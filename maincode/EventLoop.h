@@ -3,10 +3,12 @@
 
 class Epoll;
 class Channel;
+class ThreadPool;
 class EventLoop
 {
 private:
     Epoll *ep;
+    ThreadPool *threadPool;
     bool quit;
 public:
     EventLoop();
