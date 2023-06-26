@@ -11,6 +11,7 @@ private:
     Epoll *ep;
     ThreadPool *threadPool;
     Timer *timer;
+    int timeout;
     bool quit;
 public:
     EventLoop(Timer *_timer);

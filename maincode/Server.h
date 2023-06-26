@@ -24,4 +24,5 @@ private:
     std::vector<EventLoop*> subReactors;
     ThreadPool *threadpool;
     Timer *timer;
+    int timeout;
 };

@@ -10,7 +10,7 @@
 #include "myThreadPool/ThreadPool.h"
 #include "Timer/Timer.h"
 
-Server::Server(EventLoop *_loop) : mainReactor(_loop), acceptor(nullptr), timer(mainReactor->getTimer())
+Server::Server(EventLoop *_loop) : mainReactor(_loop), acceptor(nullptr), timer(mainReactor->getTimer()), timeout(5000)
 {
     acceptor = new Acceptor(mainReactor);
     std::function<void(Socket*)> cb = std::bind(&Server::newConnection, this, std::placeholders::_1);
@@ -43,7 +43,7 @@ void Server::newConnection(Socket *sock)
         std::function<void(int)> cb = std::bind(&Server::deleteConnection, this, std::placeholders::_1, subReactors[idx]->getEpfd());
         conn->setDeleteConnectionCallback(cb);
         connections[sock->getFd()] = conn;
-        timer->addToTimer(sock->getFd(), 5000, std::bind(&Server::deleteConnection, this, sock->getFd(), subReactors[idx]->getEpfd()));
+        timer->addToTimer(sock->getFd(), timeout, std::bind(&Server::deleteConnection, this, sock->getFd(), subReactors[idx]->getEpfd()));
     }
 }
 

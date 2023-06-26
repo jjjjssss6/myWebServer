@@ -5,7 +5,7 @@
 #include "Timer/Timer.h"
 #include <vector>
 
-EventLoop::EventLoop(Timer *_timer) : timer(_timer), ep(nullptr), quit(false)
+EventLoop::EventLoop(Timer *_timer) : timer(_timer), ep(nullptr), quit(false), timeout(5000)
 {
     ep = new Epoll();
     threadPool = new ThreadPool();
@@ -34,7 +34,7 @@ void EventLoop::loop()
     {
         timer->handleTimeoutEvents();
         std::vector<Channel *> chs;
-        chs = ep->poll();
+        chs = ep->poll(timeout);
         for (auto it = chs.begin(); it != chs.end(); ++it)
         {
             // (*it)->handleEvent();
