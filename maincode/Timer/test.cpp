@@ -13,5 +13,6 @@ int main()
     t.addToTimer(1, 100, std::bind(&print));
     sleep(1);
     t.handleTimeoutEvents();
+    t.handleTimeoutEvents();
     return 0;
 }

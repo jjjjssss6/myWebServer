@@ -69,6 +69,9 @@ void Timer::handleTimeoutEvents()
         event.cb();
         deletedNum++;
     }
-
+    for (int i = 1; i <= deletedNum; i++)
+    {
+        eventQueue.erase(eventQueue.begin());
+    }
 }
 
